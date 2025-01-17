@@ -6,35 +6,37 @@
 
 <div align="center">
   <a href="https://github.com/soumadip-dev">
-    <img src="https://skillicons.dev/icons?i=nodejs,express,mongodb,react,github" alt="Tech Stack" width="170" style="padding: 15px 0;">
+    <img src="https://skillicons.dev/icons?i=nodejs,express,mongodb,react,redux,tailwindcss,github" alt="Tech Stack" width="260" style="padding: 15px 0;">
   </a>
 </div>
 
 <h3 align="center">
-  CommitMate is a developer networking platform designed to foster valuable technical collaborations.
+  CommitMate is a developer networking platform designed to foster valuable technical collaborations.<br>
   Connect with like-minded developers, manage your profile, and build meaningful professional relationships.
 </h3>
 
 ---
 
-## 🌟 Features (Planned)
+## 🌟 Features (Planned & In Progress)
 
-- 🔐 **User Authentication** – Secure registration and login functionality.
-- 👤 **Profile Management** – Create and update detailed user profiles.
-- 🌐 **Explore Feed** – Browse developer profiles across the platform.
-- 🤝 **Connection Requests** – Like or pass on other developers to grow your network.
-- 📬 **Sent Requests Tracking** – View and manage the connection requests you've initiated.
-- 🧩 **Matches Overview** – See developers who have matched and connected with you.
+- 🔐 **User Authentication** – Secure signup/login with token-based authentication.
+- 👤 **Profile Management** – Create, update, and personalize user profiles with skills and project highlights.
+- 🌐 **Explore Feed** – Browse and discover developer profiles across the platform.
+- 🤝 **Connection Requests** – Like or pass on other developers to expand your network.
+- 📬 **Sent Requests Tracking** – View and manage the connection requests you have initiated.
+- 🧩 **Matches Overview** – Check developers who have matched and connected with you.
 
 ---
 
 ## 🛠 Tech Stack & Architecture
 
-CommitMate follows a **microservices architecture**:
+CommitMate is built with a **microservices architecture**, ensuring scalability and flexibility:
 
-- **Frontend**: React.js
-- **Backend**: Node.js with Express
-- **Database**: MongoDB
+- **Frontend**: React.js + Redux for state management, styled with Tailwind CSS and DaisyUI components.
+- **Backend**: Node.js with Express.js for building scalable RESTful APIs.
+- **Database**: MongoDB with Mongoose ODM for seamless data management.
+- **Authentication**: JWT (JSON Web Tokens) based authentication for secure access.
+- **Deployment**: Planned deployments via platforms like Vercel (Frontend) and Render or Railway (Backend).
 
 ---
 
