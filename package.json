@@ -1,0 +1,29 @@
+{
+  "name": "commitmate-backend",
+  "version": "1.0.0",
+  "description": "A developer networking platform for meaningful collaborations.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soumadip-dev/CommitMate.git"
+  },
+  "keywords": [
+    "developer",
+    "networking",
+    "node",
+    "react",
+    "collaboration"
+  ],
+  "author": "Soumadip Majila",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/soumadip-dev/CommitMate/issues"
+  },
+  "homepage": "https://github.com/soumadip-dev/CommitMate#readme",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
