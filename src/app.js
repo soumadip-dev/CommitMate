@@ -1,11 +1,14 @@
 // IMPORTING MODULES
 import bcrypt from 'bcryptjs';
+import cookieParser from 'cookie-parser';
 import express from 'express';
+import jwt from 'jsonwebtoken';
 import { User } from './models/user.models.js';
 import { validateLoginData, validateSignUpData } from './utils/validations.js';
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 // ROUTE: SIGNUP
 app.post('/signup', async (req, res) => {
@@ -62,11 +65,22 @@ app.post('/login', async (req, res) => {
     // Check if password is correct or not
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
-    if (!isPasswordValid) {
+    if (isPasswordValid) {
+      // Create a JWT Token
+      const token = jwt.sign(
+        { _id: user._id },
+        process.env.ACCESS_TOKEN_SECRET,
+      );
+
+      console.log(token);
+
+      // Add the token to cookie and send the response back to the user
+      res.cookie('token', token);
+
+      res.status(200).send('Login Successfull');
+    } else {
       throw new Error('Invalid credientials');
     }
-
-    res.status(200).send('User logged in successfully');
   } catch (err) {
     console.error('Error during user login:', err);
 
@@ -74,6 +88,40 @@ app.post('/login', async (req, res) => {
       .status(500)
       .send(
         `An error occurred during login: ${err.message}. Please try again later.`,
+      );
+  }
+});
+
+// ROUTE: PROFILE
+app.get('/profile', async (req, res) => {
+  try {
+    // Get token from the cookie
+    const { token } = req.cookies;
+
+    if (!token) {
+      throw new Error('No token found');
+    }
+
+    // Verify the token
+    const decoded = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+    // Get user data from the decoded token
+    const { _id } = decoded;
+
+    const user = await User.findById(_id);
+
+    if (!user) {
+      throw new Error('User not found');
+    }
+ 
+    res.status(200).send(user);
+  } catch (err) {
+    console.error('Error in profile:', err);
+
+    res
+      .status(500)
+      .send(
+        `An error occurred during profile request: ${err.message}. Please try again later.`,
       );
   }
 });
