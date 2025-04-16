@@ -65,11 +65,18 @@ app.post('/login', async (req, res) => {
     }
 
     // Compare provided password with stored hash
-    const isPasswordValid = user.isPasswordCorrect;
+    const isPasswordValid = user.isPasswordCorrect(password);
 
     if (isPasswordValid) {
       // Generate JWT token
       const token = user.generateAccessToken();
+
+      // Add the token to cookie and send the response back to the user
+      res.cookie('token', token, {
+        httpOnly: true,
+        sameSite: 'Strict',
+        maxAge: parseInt(process.env.COOKIE_MAX_AGE),
+      });
 
       // Respond with success
       res.status(200).send('Login Successfull');
