@@ -2,7 +2,6 @@
 import bcrypt from 'bcryptjs';
 import cookieParser from 'cookie-parser';
 import express from 'express';
-import jwt from 'jsonwebtoken';
 import authMiddleware from './middlewares/auth.middlewares.js';
 import { User } from './models/user.models.js';
 import { validateLoginData, validateSignUpData } from './utils/validations.js';
@@ -66,21 +65,11 @@ app.post('/login', async (req, res) => {
     }
 
     // Compare provided password with stored hash
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = user.isPasswordCorrect;
 
     if (isPasswordValid) {
       // Generate JWT token
-      const token = jwt.sign(
-        { _id: user._id },
-        process.env.ACCESS_TOKEN_SECRET,
-        { expiresIn: process.env.ACCESS_TOKEN_EXPIRY },
-      );
-
-      // Add the token to cookie and send the response back to the user
-      res.cookie('token', token, {
-        httpOnly: true,
-        sameSite: 'Strict',
-      });
+      const token = user.generateAccessToken();
 
       // Respond with success
       res.status(200).send('Login Successfull');

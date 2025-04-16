@@ -1,4 +1,5 @@
 // IMPORTING MODULES
+import jwt from 'jsonwebtoken';
 import mongoose, { Schema } from 'mongoose';
 import validator from 'validator';
 
@@ -67,6 +68,23 @@ const userSchema = new Schema(
   },
   { timestamps: true },
 );
+
+// METHOD TO CHECK IF ENTERED PASSWORD MATCHES STORED HASHED PASSWORD
+userSchema.methods.isPasswordCorrect = async function () {
+  return await bcrypt.compare(password, this.password);
+};
+
+// METHOD TO GENERATE ACCESS TOKEN FOR USER AUTHENTICATION
+userSchema.methods.generateAccessToken = function () {
+  const token = jwt.sign(
+    {
+      _id: this._id,
+    },
+    process.env.ACCESS_TOKEN_SECRET,
+    { expiresIn: process.env.ACCESS_TOKEN_EXPIRY },
+  );
+  return token;
+};
 
 // CREATE AND EXPORT USER MODEL
 export const User = mongoose.model('User', userSchema);
