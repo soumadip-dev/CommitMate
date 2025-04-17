@@ -10,7 +10,7 @@ const signupController = async (req, res) => {
     validateSignUpData(req);
 
     // Extract necessary fields from the request
-    const { firstName, lastName, emailId, password } = req.body;
+    const { firstName, lastName, emailId, password, age, gender } = req.body;
 
     // Hash the password using bcrypt
     const hashedPass = await bcrypt.hash(password, 10);
@@ -21,6 +21,8 @@ const signupController = async (req, res) => {
       lastName,
       emailId,
       password: hashedPass,
+      age,
+      gender,
     });
 
     // Save the user to the database
