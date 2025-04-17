@@ -1,100 +1,22 @@
 // IMPORTING MODULES
-import bcrypt from 'bcryptjs';
 import { Router } from 'express';
-import { User } from '../models/user.models.js';
-import { validateLoginData, validateSignUpData } from '../utils/validations.js';
+import {
+  loginController,
+  logoutController,
+  signupController,
+} from '../controllers/auth.controllers.js';
 
 // CREATING ROUTER INSTANCE
 const router = Router();
 
 // SIGNUP ROUTE
-router.post('/signup', async (req, res) => {
-  try {
-    // Validate incoming request body
-    validateSignUpData(req);
-
-    // Extract necessary fields from the request
-    const { firstName, lastName, emailId, password } = req.body;
-
-    // Hash the password using bcrypt
-    const hashedPass = await bcrypt.hash(password, 10);
-
-    // Create a new user instance
-    const user = new User({
-      firstName,
-      lastName,
-      emailId,
-      password: hashedPass,
-    });
-
-    // Save the user to the database
-    await user.save();
-
-    // Send success response
-    res.status(201).send('User successfully created');
-  } catch (err) {
-    res
-      .status(500)
-      .send(
-        `An error occurred during signup: ${err.message}. Please try again later.`,
-      );
-  }
-});
+router.post('/signup', signupController);
 
 // LOGIN ROUTE
-router.post('/login', async (req, res) => {
-  try {
-    // Validate login request body
-    validateLoginData(req);
-
-    // Extract credentials
-    const { emailId, password } = req.body;
-
-    // Find user by email
-    const user = await User.findOne({ emailId });
-
-    if (!user) {
-      // User not found
-      throw new Error('Invalid credientials');
-    }
-
-    // Compare provided password with stored hash
-    const isPasswordValid = user.isPasswordCorrect(password);
-
-    if (isPasswordValid) {
-      // Generate JWT token
-      const token = user.generateAccessToken();
-
-      // Add the token to cookie and send the response back to the user
-      res.cookie('token', token, {
-        httpOnly: true,
-        sameSite: 'Strict',
-        maxAge: parseInt(process.env.COOKIE_MAX_AGE),
-      });
-
-      // Respond with success
-      res.status(200).send('Login Successfull');
-    } else {
-      // Password mismatch
-      throw new Error('Invalid credientials');
-    }
-  } catch (err) {
-    res
-      .status(500)
-      .send(
-        `An error occurred during login: ${err.message}. Please try again later.`,
-      );
-  }
-});
+router.post('/login', loginController);
 
 // LOGOUT ROUTE
-router.post('/logout', (req, res) => {
-  // Remove the JWT token from the cookie
-  res.cookie('token', '', {});
-
-  // Send success response to user
-  res.status(200).send('Logged out successfully');
-});
+router.post('/logout', logoutController);
 
 // EXPORTING ROUTER INSTANCE
 export default router;

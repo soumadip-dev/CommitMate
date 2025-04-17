@@ -1,6 +1,6 @@
 <h1 align="center">
   <br>
-  🚀 CommitMate
+  CommitMate
   <br>
 </h1>
 
