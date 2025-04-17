@@ -1,61 +1,83 @@
-# CommitMate
+<h1 align="center">
+  <br>
+  🚀 CommitMate
+  <br>
+</h1>
 
-🚧 **Project coming soon...** 🚧
+<div align="center">
+  <a href="https://github.com/soumadip-dev">
+    <img src="https://skillicons.dev/icons?i=nodejs,express,mongodb,react,github" alt="Tech Stack" width="170" style="padding: 15px 0;">
+  </a>
+</div>
 
-CommitMate is a developer networking platform designed to foster valuable technical collaborations among developers. It provides users with the ability to connect with others, send and receive connection requests, and manage their profiles. 
+<h3 align="center">
+  CommitMate is a developer networking platform designed to foster valuable technical collaborations.
+  Connect with like-minded developers, manage your profile, and build meaningful professional relationships.
+</h3>
 
 ---
 
-## Planned Features
+## 🌟 Features (Planned)
 
-- **User Registration** – Create an account on the platform.
-- **User Login** – Secure login functionality.
-- **Profile Management** – View and update your personal profile.
-- **Explore Feed Page** – Discover new developer profiles and potential connections.
-- **Send Connection Requests** – Send connection requests to other users.
-- **View Your Matches** – View profiles that you’ve connected with.
-- **View Sent Requests** – Monitor the requests you’ve sent.
+- 🔐 **User Authentication** – Secure registration and login functionality.
+- 👤 **Profile Management** – Create and update detailed user profiles.
+- 🌐 **Explore Feed** – Browse developer profiles across the platform.
+- 🤝 **Connection Requests** – Like or pass on other developers to grow your network.
+- 📬 **Sent Requests Tracking** – View and manage the connection requests you've initiated.
+- 🧩 **Matches Overview** – See developers who have matched and connected with you.
 
 ---
 
-## Tech Stack & Architecture
+## 🛠 Tech Stack & Architecture
 
-CommitMate will be built using a microservices architecture consisting of:
+CommitMate follows a **microservices architecture**:
 
 - **Frontend**: React.js
-- **Backend**: Node.js with MongoDB as the database
+- **Backend**: Node.js with Express
+- **Database**: MongoDB
 
 ---
 
-## Low-Level Design (LLD)
+## 📡 API Endpoints
 
-### Database Design
+### 🔐 Authentication
 
-#### Collections
-
-- **User** – Stores user-related data such as name, email, etc.
-- **ConnectionRequests** – Tracks connection requests sent between users, their statuses, and actions.
-
-### API Design
-
-- **POST** `/signup` – Register a new user account.
-- **POST** `/login` – Log in to an existing account.
-- **POST** `/logout` – Log out from the current session.
-- **GET** `/profile/view` – Retrieve the current user's profile data.
-- **PATCH** `/profile/edit` – Update the current user's profile information.
-- **PATCH** `/profile/resetpassword` – Reset the user's password.
-- **DELETE** `/profile` – Delete the user's profile data.
-
-- **POST** `/connectionrequests/send/like/:userId` – Send a "like" connection request to another user.
-- **POST** `/connectionrequests/send/pass/:userId` – Send a "pass" (ignore) connection request to another user.
-
-- **POST** `/connectionrequests/review/match/:requestId` – Accept a pending connection request.
-- **POST** `/connectionrequests/review/reject/:requestId` – Reject a pending connection request.
-
-- **GET** `/requests` – Retrieve all the connection requests received by the user.
-- **GET** `/connections` – Get a list of all connections the user has made.
-
-- **GET** `/feed` – View the profiles of other users on the platform.
+| Method | Endpoint       | Description            |
+| ------ | -------------- | ---------------------- |
+| POST   | `/auth/signup` | Register a new user    |
+| POST   | `/auth/login`  | Log in to an account   |
+| POST   | `/auth/logout` | Log out of the session |
 
 ---
 
+### 👤 Profile Management
+
+| Method | Endpoint                 | Description                 |
+| ------ | ------------------------ | --------------------------- |
+| GET    | `/profile/view`          | View current user's profile |
+| PATCH  | `/profile/edit`          | Edit profile information    |
+| PATCH  | `/profile/resetpassword` | Reset account password      |
+| DELETE | `/profile`               | Delete user profile         |
+
+---
+
+### 🤝 Connection Requests
+
+| Method | Endpoint                               | Description                    |
+| ------ | -------------------------------------- | ------------------------------ |
+| POST   | `/connection/send/like/:userId`        | Send a "like" request          |
+| POST   | `/connection/send/pass/:userId`        | Send a "pass" (ignore) request |
+| POST   | `/connection/review/match/:requestId`  | Accept a connection request    |
+| POST   | `/connection/review/reject/:requestId` | Reject a connection request    |
+
+---
+
+### 👥 User Networking
+
+| Method | Endpoint            | Description                       |
+| ------ | ------------------- | --------------------------------- |
+| GET    | `/user/requests`    | View received connection requests |
+| GET    | `/user/connections` | View established connections      |
+| GET    | `/user/feed`        | Discover new developers           |
+
+---
