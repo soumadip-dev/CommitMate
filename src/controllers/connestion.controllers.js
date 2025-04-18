@@ -56,6 +56,36 @@ const sendConnectionController = async (req, res) => {
 // CONTROLLER FOR REVIEWING A CONNECTION REQUEST
 const reviewConnectionController = async (req, res) => {
   try {
+    const { status, requestId } = req.params;
+    const loggedInUserId = req.user._id;
+
+    const allowedStatuses = ['match', 'reject'];
+    if (!allowedStatuses.includes(status)) {
+      throw new Error('Invalid status');
+    }
+
+    const connectionRequest = await ConnectionRequest.findOne({
+      _id: requestId,
+      toUserId: loggedInUserId,
+      status: 'like',
+    });
+
+    if (!connectionRequest) {
+      throw new Error('Connection request not found or already reviewed');
+    }
+
+    if (connectionRequest.fromUserId.toString() === loggedInUserId.toString()) {
+      throw new Error('You cannot review your own connection request');
+    }
+
+    connectionRequest.status = status;
+    await connectionRequest.save();
+
+    const fromUser = await User.findById(connectionRequest.fromUserId).lean();
+
+    res.status(200).json({
+      message: `${req.user.firstName} reviewed the connection request from ${fromUser.firstName} with status ${status}.`,
+    });
   } catch (err) {
     res.status(400).send('Something went wrong: ' + err.message);
   }
