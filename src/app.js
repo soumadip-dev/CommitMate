@@ -7,7 +7,7 @@ import connectionRoutes from './routes/connection.routes.js';
 import profileRoutes from './routes/profile.routes.js';
 import userRoutes from './routes/user.routes.js';
 
-// Create an Express application
+// CREATE AN EXPRESS APPLICATION
 const app = express();
 
 // MIDDLEWARE SETUP

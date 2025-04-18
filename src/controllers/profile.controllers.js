@@ -56,6 +56,7 @@ const editProfileController = async (req, res) => {
   }
 };
 
+// CONTROLLER FOR UPDATE PROFILE PASSWORD
 const editProfilePasswordController = async (req, res) => {
   try {
     const { password } = req.body;

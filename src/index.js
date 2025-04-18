@@ -1,16 +1,17 @@
+// IMPORTING MODULES
 import dotenv from 'dotenv';
 import app from './app.js';
 import connectDb from './db/index.js';
 
-// Load environment variables from .env file
+// LOAD ENVIRONMENT VARIABLES FROM .env FILE
 dotenv.config({
   path: './.env',
 });
 
-// Set the port for the server
+// SET THE PORT FOR THE SERVER
 const PORT = process.env.PORT || 8000;
 
-// Establish a connection to the MongoDB database
+// ESTABLISH A CONNECTION TO THE MONGODB DATABASE
 connectDb()
   .then(() => {
     app.listen(PORT, () => {

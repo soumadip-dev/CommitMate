@@ -16,15 +16,10 @@ const sendConnectionController = async (req, res) => {
       throw new Error('Invalid status');
     }
 
-    // Check if the toUser is an valid user or not
+    // Check if the receiver user exists
     const toUser = await User.findById(toUserId);
     if (!toUser) {
       throw new Error('User not found');
-    }
-
-    // Check if toUser and fromUser are not the same
-    if (fromUserId.equals(toUserId)) {
-      throw new Error('Cannot send connection request to yourself');
     }
 
     // Check if the same connection request already exists
@@ -51,8 +46,7 @@ const sendConnectionController = async (req, res) => {
 
     // Return success response
     res.status(200).json({
-      message: 'Connection request sent successfully',
-      data,
+      message: `${req.user.firstName} sent a connection request to ${toUser.firstName} with status ${status}.`,
     });
   } catch (err) {
     res.status(400).send('Something went wrong: ' + err.message);
