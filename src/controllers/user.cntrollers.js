@@ -75,14 +75,15 @@ const getFeedController = async (req, res) => {
     // Middleware has added user to req
     const loggedInUser = req.user;
 
+    // Pagination logic
+    const page = parseInt(req.query.page) || 1;
+    let limit = parseInt(req.query.limit) || 10;
+    limit = limit > 50 ? 50 : limit;
+    const skip = (page - 1) * limit;
+
     // Find all connections involving the logged-in user
     const userConnections = await ConnectionRequest.find({
-      $or: [
-        {
-          fromUserId: loggedInUser._id,
-        },
-        { toUserId: loggedInUser._id },
-      ],
+      $or: [{ fromUserId: loggedInUser._id }, { toUserId: loggedInUser._id }],
     }).select('fromUserId toUserId');
 
     // Store IDs of users the logged-in user is already connected with
@@ -99,7 +100,10 @@ const getFeedController = async (req, res) => {
         { _id: { $nin: Array.from(connectedUserIds) } },
         { _id: { $ne: loggedInUser._id } },
       ],
-    }).select('firstName lastName photoUrl age gender about skills');
+    })
+      .select('firstName lastName photoUrl age gender about skills')
+      .skip(skip)
+      .limit(limit);
 
     // Send the suggested users as the feed
     res.status(200).json({
