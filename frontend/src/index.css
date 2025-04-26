@@ -2,5 +2,5 @@
 @plugin "daisyui";
 
 @plugin "daisyui" {
-  themes: light --default, dark --prefersdark, dracula;
+  themes: light --default, dark --prefersdark, valentine;
 }
