@@ -38,7 +38,7 @@ CommitMate follows a **microservices architecture**:
 
 ---
 
-## 📡 API Endpoints
+<!-- ## 📡 API Endpoints
 
 ### 🔐 Authentication
 
@@ -80,4 +80,4 @@ CommitMate follows a **microservices architecture**:
 | GET    | `/user/connections` | View established connections      |
 | GET    | `/user/feed`        | Discover new developers           |
 
----
+--- -->
