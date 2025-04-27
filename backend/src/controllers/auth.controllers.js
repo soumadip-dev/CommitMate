@@ -57,7 +57,7 @@ const loginController = async (req, res) => {
     }
 
     // Compare provided password with stored hash
-    const isPasswordValid = user.isPasswordCorrect(password);
+    const isPasswordValid = await user.isPasswordCorrect(password);
 
     if (isPasswordValid) {
       // Generate JWT token
@@ -71,7 +71,7 @@ const loginController = async (req, res) => {
       });
 
       // Respond with success
-      res.status(200).send('Login Successfull');
+      res.status(200).json({ message: 'Login Successfull', data: user });
     } else {
       // Password mismatch
       throw new Error('Invalid credientials');

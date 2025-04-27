@@ -1,7 +1,7 @@
 // IMPORTING MODULES
 import cookieParser from 'cookie-parser';
-import express from 'express';
 import cors from 'cors';
+import express from 'express';
 
 import authRoutes from './routes/auth.routes.js';
 import connectionRoutes from './routes/connection.routes.js';
@@ -15,7 +15,12 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(cors());
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+  }),
+);
 
 // ROUTES
 // app.use('/api/v1/healthcheck', healthCheckRouter);
