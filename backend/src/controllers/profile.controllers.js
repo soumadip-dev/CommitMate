@@ -19,6 +19,7 @@ const viewProfileController = async (req, res) => {
     // Send response with the full name in the message
     res.status(200).json({
       message: `Profile fetched successfully: ${user.firstName} ${user.lastName}`,
+      data: user,
     });
   } catch (err) {
     // Handle error
