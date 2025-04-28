@@ -1,10 +1,13 @@
 import axios from 'axios';
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { addUser } from '../utils/userSlice';
 
 const Login = () => {
   const [emailId, setEmailId] = useState('sneha@example.com');
   const [password, setPassword] = useState('Sneha@1234');
+  const dispatch = useDispatch();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -20,6 +23,7 @@ const Login = () => {
         }
       );
       console.log(response.data);
+      dispatch(addUser(response.data.data));
     } catch (error) {
       console.error(error);
     }
