@@ -10,9 +10,8 @@ const Login = () => {
   const [password, setPassword] = useState('Sneha@1234');
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const handleSubmit = async e => {
+  const handleLogin = async e => {
     e.preventDefault();
-
     try {
       const response = await axios.post(
         `${BASE_URL}/auth/login`,
@@ -24,9 +23,8 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      console.log(response.data);
       dispatch(addUser(response.data.data));
-      navigate('/');
+      navigate('/app');
     } catch (error) {
       console.error(error);
     }
@@ -65,7 +63,7 @@ const Login = () => {
             </div>
 
             {/* Login Form */}
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleLogin} className="space-y-6">
               <div className="space-y-5">
                 {/* Email Field */}
                 <div className="form-control">
