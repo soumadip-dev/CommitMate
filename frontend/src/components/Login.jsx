@@ -6,10 +6,15 @@ import { BASE_URL } from '../utils/constants';
 import { addUser } from '../utils/userSlice';
 
 const Login = () => {
+  // Local state for email, password, and error message
   const [emailId, setEmailId] = useState('sneha@example.com');
   const [password, setPassword] = useState('Sneha@1234');
+  const [error, setError] = useState('');
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // Handle form submission
   const handleLogin = async e => {
     e.preventDefault();
     try {
@@ -26,7 +31,11 @@ const Login = () => {
       dispatch(addUser(response.data.data));
       navigate('/app');
     } catch (error) {
-      console.error(error);
+      console.log(error);
+      // Set error message from server response or fallback to generic
+      setError(
+        error?.response?.data || 'Something went wrong. Please try again.'
+      );
     }
   };
 
@@ -36,7 +45,7 @@ const Login = () => {
         {/* Login Card */}
         <div className="card bg-base-100 shadow-xl border border-base-300/30 rounded-2xl overflow-hidden">
           <div className="card-body p-8 sm:p-10">
-            {/* Header */}
+            {/* Header Section */}
             <div className="text-center space-y-4 mb-8">
               <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto">
                 <svg
@@ -65,7 +74,7 @@ const Login = () => {
             {/* Login Form */}
             <form onSubmit={handleLogin} className="space-y-6">
               <div className="space-y-5">
-                {/* Email Field */}
+                {/* Email Input Field */}
                 <div className="form-control">
                   <label className="label" htmlFor="emailId">
                     <span className="label-text text-base-content/80 font-medium">
@@ -83,7 +92,7 @@ const Login = () => {
                   />
                 </div>
 
-                {/* Password Field */}
+                {/* Password Input Field */}
                 <div className="form-control space-y-2">
                   <label className="label" htmlFor="password">
                     <span className="label-text text-base-content/80 font-medium">
@@ -100,6 +109,7 @@ const Login = () => {
                     required
                   />
                   <div className="flex justify-end -mt-1">
+                    {/* Forgot password link */}
                     <Link
                       to="/forgot-password"
                       className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
@@ -110,7 +120,11 @@ const Login = () => {
                 </div>
               </div>
 
-              <button type="submit" className={`btn btn-primary w-full mt-2`}>
+              {/* Error Message */}
+              {error && <p className="text-red-900">{error}</p>}
+
+              {/* Login Button */}
+              <button type="submit" className="btn btn-primary w-full mt-2">
                 Login
               </button>
             </form>
