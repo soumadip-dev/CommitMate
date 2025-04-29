@@ -8,34 +8,48 @@ import UserCard from './UserCard';
 const Feed = () => {
   const feed = useSelector(store => store.feed);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [animationType, setAnimationType] = useState('');
+  const [hasLoaded, setHasLoaded] = useState(false);
   const dispatch = useDispatch();
 
   const getFeed = async () => {
-    if (feed && feed.length > 0) return;
     try {
       const response = await axios.get(`${BASE_URL}/user/feed`, {
         withCredentials: true,
       });
       dispatch(addFeed(response.data.data));
+      setHasLoaded(true);
     } catch (error) {
       console.error('Failed to fetch feed:', error.message);
+      setHasLoaded(true);
     }
   };
 
   const handleSendRequest = async (status, userId) => {
+    if (isAnimating) return;
+
+    setAnimationType(status);
+    setIsAnimating(true);
+
     try {
       await axios.post(
         `${BASE_URL}/connection/send/${status}/${userId}`,
         {},
         { withCredentials: true }
       );
-      dispatch(removeUserFromFeed(userId));
-      // Move to next profile if available
-      if (currentIndex < feed.length - 1) {
-        setCurrentIndex(prev => prev + 1);
-      }
+
+      setTimeout(() => {
+        dispatch(removeUserFromFeed(userId));
+        setIsAnimating(false);
+        // Reset to first profile if we've reached the end
+        if (currentIndex >= feed.length - 1) {
+          setCurrentIndex(0);
+        }
+      }, 300);
     } catch (error) {
       console.error('Failed to send request:', error.message);
+      setIsAnimating(false);
     }
   };
 
@@ -43,7 +57,32 @@ const Feed = () => {
     getFeed();
   }, []);
 
-  if (!feed || feed.length === 0) {
+  // No users to show (after loading)
+  if (hasLoaded && (!feed || feed.length === 0)) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-base-100">
+        <div className="text-center p-6 max-w-md">
+          <div className="text-6xl mb-4">😕</div>
+          <h2 className="text-2xl font-bold text-base-content mb-2">
+            No profiles to show
+          </h2>
+          <p className="text-base-content/70 mb-6">
+            We've run out of potential matches in your area. Try adjusting your
+            preferences or check back later!
+          </p>
+          <button
+            className="btn btn-primary"
+            onClick={() => window.location.reload()}
+          >
+            Refresh Feed
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Loading state
+  if (!hasLoaded) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-base-100">
         <div className="text-center">
@@ -63,22 +102,38 @@ const Feed = () => {
         {currentIndex + 1} of {feed.length}
       </div>
 
-      {/* Main Profile Card */}
-      <UserCard profile={currentProfile} />
+      {/* Main Profile Card with Animation */}
+      <div
+        className={`relative w-full max-w-md ${
+          isAnimating
+            ? animationType === 'like'
+              ? 'animate-like'
+              : 'animate-pass'
+            : ''
+        }`}
+      >
+        <UserCard profile={currentProfile} />
+      </div>
 
       {/* Action Buttons */}
       <div className="fixed bottom-8 left-0 right-0 flex justify-center gap-10 z-10">
         <button
-          className="btn btn-circle btn-outline w-16 h-16 text-2xl shadow-lg border-2 border-error hover:bg-error/20 hover:border-error text-error transition-transform hover:scale-105 active:scale-95"
+          className={`btn btn-circle btn-outline w-16 h-16 text-2xl shadow-lg border-2 border-error hover:bg-error/20 hover:border-error text-error transition-all duration-200 ${
+            isAnimating ? 'opacity-70 scale-90' : 'hover:scale-105'
+          } active:scale-95`}
           aria-label="Pass"
           onClick={() => handleSendRequest('pass', currentProfile._id)}
+          disabled={isAnimating}
         >
           ✕
         </button>
         <button
-          className="btn btn-circle w-16 h-16 text-2xl shadow-lg border-2 border-primary bg-primary hover:bg-primary/90 hover:border-primary text-primary-content transition-transform hover:scale-105 active:scale-95"
+          className={`btn btn-circle w-16 h-16 text-2xl shadow-lg border-2 border-primary bg-primary hover:bg-primary/90 hover:border-primary text-primary-content transition-all duration-200 ${
+            isAnimating ? 'opacity-70 scale-90' : 'hover:scale-105'
+          } active:scale-95`}
           aria-label="Like"
           onClick={() => handleSendRequest('like', currentProfile._id)}
+          disabled={isAnimating}
         >
           ♥
         </button>
