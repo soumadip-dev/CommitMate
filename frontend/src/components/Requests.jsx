@@ -7,8 +7,22 @@ import { addRequest } from '../utils/requestSlice';
 const Requests = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  // Get requests directly from Redux store
   const requests = useSelector(store => store.request?.data) || [];
+
+  const reviewRequest = async (requestId, status) => {
+    try {
+      await axios.post(
+        `${BASE_URL}/connection/review/${status}/${requestId}`,
+        {},
+        { withCredentials: true }
+      );
+      // Consider refreshing the requests after review
+      fetchRequests();
+    } catch (err) {
+      console.error(err.message);
+      // Add user feedback here (e.g., toast notification)
+    }
+  };
 
   const fetchRequests = async () => {
     try {
@@ -17,9 +31,9 @@ const Requests = () => {
         withCredentials: true,
       });
       dispatch(addRequest(response.data.data));
-      console.log(response.data.data[0].fromUserId);
     } catch (err) {
       console.error(err.message);
+      // Add user feedback here (e.g., toast notification)
     } finally {
       setLoading(false);
     }
@@ -72,7 +86,7 @@ const Requests = () => {
           ) : requests.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {requests.map(request => {
-                const user = request.fromUserId; // Access the nested user object
+                const user = request.fromUserId || {};
                 return (
                   <div
                     key={request._id}
@@ -82,42 +96,47 @@ const Requests = () => {
                       <div className="flex items-center gap-4">
                         <div className="avatar">
                           <div className="w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20">
-                            {user.photoUrl ? (
+                            {user?.photoUrl ? (
                               <img
                                 src={user.photoUrl}
-                                alt={`${user.firstName} ${user.lastName}`}
+                                alt={`${user?.firstName || ''} ${
+                                  user?.lastName || ''
+                                }`}
                                 className="w-full h-full object-cover rounded-full"
                                 onError={e => {
                                   e.target.onerror = null;
-                                  e.target.src = '';
+                                  e.target.parentElement.classList.remove(
+                                    'from-primary/20',
+                                    'to-secondary/20'
+                                  );
                                 }}
                               />
                             ) : (
                               <span className="text-2xl font-medium text-primary-content/80 flex items-center justify-center w-full h-full">
-                                {user.firstName?.charAt(0).toUpperCase()}
-                                {user.lastName?.charAt(0).toUpperCase()}
+                                {user?.firstName?.charAt(0)?.toUpperCase()}
+                                {user?.lastName?.charAt(0)?.toUpperCase()}
                               </span>
                             )}
                           </div>
                         </div>
                         <div>
                           <h3 className="font-bold text-lg">
-                            {user.firstName} {user.lastName}
+                            {user?.firstName} {user?.lastName}
                           </h3>
                           <p className="text-sm text-base-content/70">
-                            {user.age && `${user.age} years`}{' '}
-                            {user.gender && ` • ${user.gender}`}
+                            {user?.age && `${user.age} years`}{' '}
+                            {user?.gender && ` • ${user.gender}`}
                           </p>
                         </div>
                       </div>
 
-                      {user.about && (
+                      {user?.about && (
                         <p className="mt-4 text-base-content/80 line-clamp-3">
                           {user.about}
                         </p>
                       )}
 
-                      {user.skills?.length > 0 && (
+                      {user?.skills?.length > 0 && (
                         <div className="mt-4 flex flex-wrap gap-2">
                           {user.skills.slice(0, 4).map((skill, index) => (
                             <span
@@ -136,10 +155,16 @@ const Requests = () => {
                       )}
 
                       <div className="mt-6 flex gap-3">
-                        <button className="btn btn-primary btn-sm flex-1">
+                        <button
+                          className="btn btn-primary btn-sm flex-1"
+                          onClick={() => reviewRequest(request._id, 'match')}
+                        >
                           Accept
                         </button>
-                        <button className="btn btn-outline btn-sm flex-1">
+                        <button
+                          className="btn btn-outline btn-sm flex-1"
+                          onClick={() => reviewRequest(request._id, 'reject')}
+                        >
                           Decline
                         </button>
                       </div>
