@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../utils/constants';
 import { addUser } from '../utils/userSlice';
 
@@ -267,16 +267,6 @@ const Login = () => {
                       )}
                     </button>
                   </div>
-                  {isLoginForm && (
-                    <label className="label py-1">
-                      <Link
-                        to="/forgot-password"
-                        className="label-text-alt text-xs text-primary hover:text-primary/80 transition-colors"
-                      >
-                        Forgot password?
-                      </Link>
-                    </label>
-                  )}
                 </div>
               </div>
 
