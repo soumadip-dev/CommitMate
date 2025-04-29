@@ -1,4 +1,5 @@
 const UserCard = ({ profile }) => {
+  const {firstName, lastName, age, gender, photoUrl, about, skills} = profile;
   return (
     <div className="relative w-full max-w-md h-[580px] mb-16">
       <div className="absolute inset-0 rounded-3xl shadow-xl overflow-hidden border border-base-300 bg-base-100 transform transition-all duration-300 hover:shadow-2xl">
@@ -6,10 +7,10 @@ const UserCard = ({ profile }) => {
         <div className="h-[75%] relative">
           <img
             src={
-              profile.photoUrl ||
+              photoUrl ||
               'https://img.freepik.com/free-vector/businessman-character-avatar-isolated_24877-60111.jpg?ga=GA1.1.503780687.1745858245&semt=ais_hybrid&w=740'
             }
-            alt={`${profile.firstName} ${profile.lastName}`}
+            alt={`${firstName} ${lastName}`}
             className="w-full h-full object-cover"
             loading="lazy"
           />
@@ -19,19 +20,19 @@ const UserCard = ({ profile }) => {
             <div className="backdrop-blur-sm bg-black/10 p-4 rounded-lg">
               <div className="flex items-center justify-between">
                 <h2 className="text-3xl font-bold text-white drop-shadow-md">
-                  {profile.firstName} {profile.lastName}
+                  {firstName} {lastName}
                 </h2>
                 <span className="text-xl font-medium text-white/90">
-                  {profile.age}
+                  {age}
                 </span>
               </div>
 
               <div className="flex items-center mt-2 gap-2">
                 <span className="text-white/90 drop-shadow-sm">
-                  {profile.gender}
+                  {gender}
                 </span>
                 <div className="flex-1 flex flex-wrap gap-1 justify-end">
-                  {profile.skills?.slice(0, 3).map((skill, index) => (
+                  {skills?.slice(0, 3).map((skill, index) => (
                     <span
                       key={index}
                       className="text-xs px-2 py-1 bg-primary/50 text-white rounded-full backdrop-blur-sm"
@@ -52,7 +53,7 @@ const UserCard = ({ profile }) => {
               About
             </h3>
             <p className="text-base-content/90 text-xs line-clamp-2">
-              {profile.about || 'No bio provided yet'}
+              {about || 'No bio provided yet'}
             </p>
           </div>
 
@@ -81,9 +82,6 @@ const UserCard = ({ profile }) => {
                     />
                   </svg>
                 </div>
-                <span className="text-xs text-base-content/80 text-center truncate w-full px-1">
-                  {profile.location}
-                </span>
               </div>
             )}
 
