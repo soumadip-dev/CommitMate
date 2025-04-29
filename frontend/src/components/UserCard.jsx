@@ -13,7 +13,7 @@ const UserCard = ({ profile }) => {
     <div className="relative w-full max-w-md h-[580px] mb-16">
       <div className="absolute inset-0 rounded-3xl shadow-xl overflow-hidden border border-base-300 bg-base-100 transform transition-all duration-300 hover:shadow-2xl">
         {/* Profile Image Section */}
-        <div className="h-[75%] relative">
+        <div className="h-[70%] relative">
           <img
             src={
               photoUrl ||
@@ -36,39 +36,48 @@ const UserCard = ({ profile }) => {
 
               <div className="flex items-center mt-2 gap-2">
                 <span className="text-white/90 drop-shadow-sm">{gender}</span>
-                <div className="flex-1 flex flex-wrap gap-1 justify-end">
-                  {skills.slice(0, 3).map((skill, index) => (
-                    <span
-                      key={index}
-                      className="text-xs px-2 py-1 bg-primary/50 text-white rounded-full backdrop-blur-sm"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div className="h-[25%] p-4 overflow-y-auto bg-gradient-to-br from-base-200 to-base-300">
-          {/* About Section - Single Line */}
-          <div className="mb-2">
+        <div className="h-[30%] p-4 overflow-y-auto bg-gradient-to-br from-base-200 to-base-300 flex flex-col">
+          {/* About Section */}
+          <div className="mb-3">
             <h3 className="font-semibold text-info text-xs uppercase tracking-wider mb-1">
               About
             </h3>
-            <p className="text-base-content/90 text-xs line-clamp-2">
+            <p className="text-base-content/90 text-sm line-clamp-2">
               {about || 'No bio provided yet'}
             </p>
           </div>
 
+          {/* Skills Section */}
+          {skills.length > 0 && (
+            <div className="mb-3">
+              <h3 className="font-semibold text-info text-xs uppercase tracking-wider mb-1">
+                Skills
+              </h3>
+              <div className="flex flex-wrap gap-2">
+                {skills.map((skill, index) => (
+                  <span
+                    key={index}
+                    className="text-xs px-2 py-1 bg-primary/20 text-white rounded-full backdrop-blur-sm border border-primary/30"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Additional Details - Icon Grid */}
-          <div className="grid grid-cols-3 gap-1">
+          <div className="grid grid-cols-3 gap-2 mt-auto">
             {profile.location && (
               <div className="flex flex-col items-center">
-                <div className="p-1 rounded-md bg-base-100/80 shadow-xs mb-1">
+                <div className="p-1.5 rounded-md bg-base-100/80 shadow-xs mb-1">
                   <svg
-                    className="w-3 h-3 text-primary"
+                    className="w-4 h-4 text-primary"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -96,9 +105,9 @@ const UserCard = ({ profile }) => {
 
             {profile.education && (
               <div className="flex flex-col items-center">
-                <div className="p-1 rounded-md bg-base-100/80 shadow-xs mb-1">
+                <div className="p-1.5 rounded-md bg-base-100/80 shadow-xs mb-1">
                   <svg
-                    className="w-3 h-3 text-primary"
+                    className="w-4 h-4 text-primary"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -120,9 +129,9 @@ const UserCard = ({ profile }) => {
 
             {profile.work && (
               <div className="flex flex-col items-center">
-                <div className="p-1 rounded-md bg-base-100/80 shadow-xs mb-1">
+                <div className="p-1.5 rounded-md bg-base-100/80 shadow-xs mb-1">
                   <svg
-                    className="w-3 h-3 text-primary"
+                    className="w-4 h-4 text-primary"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
