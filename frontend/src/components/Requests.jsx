@@ -8,6 +8,12 @@ const Requests = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const requests = useSelector(store => store.request?.data) || [];
+  const [toast, setToast] = useState(null);
+
+  const showToast = (message, type = 'info') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
 
   const reviewRequest = async (requestId, status) => {
     try {
@@ -16,11 +22,14 @@ const Requests = () => {
         {},
         { withCredentials: true }
       );
-      // Consider refreshing the requests after review
+      showToast(
+        `Request ${status === 'match' ? 'accepted' : 'declined'} successfully!`,
+        'success'
+      );
       fetchRequests();
     } catch (err) {
       console.error(err.message);
-      // Add user feedback here (e.g., toast notification)
+      showToast('Failed to process request. Please try again.', 'error');
     }
   };
 
@@ -33,7 +42,7 @@ const Requests = () => {
       dispatch(addRequest(response.data.data));
     } catch (err) {
       console.error(err.message);
-      // Add user feedback here (e.g., toast notification)
+      showToast('Failed to load requests. Please refresh the page.', 'error');
     } finally {
       setLoading(false);
     }
@@ -45,6 +54,17 @@ const Requests = () => {
 
   return (
     <div className="min-h-screen bg-base-100">
+      {/* Toast Notification */}
+      {toast && (
+        <div className="toast toast-top toast-end z-50">
+          <div className={`alert alert-${toast.type}`}>
+            <div>
+              <span>{toast.message}</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col gap-6">
           {/* Header */}
