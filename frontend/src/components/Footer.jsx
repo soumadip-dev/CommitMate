@@ -11,7 +11,6 @@ const Footer = () => {
               <span className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary text-transparent bg-clip-text">
                 CommitMate
               </span>
-              <span className="ml-1">🔥</span>
             </div>
             <p className="text-sm opacity-80 text-center lg:text-left">
               The developer networking platform for meaningful technical
@@ -19,7 +18,7 @@ const Footer = () => {
             </p>
             <div className="flex space-x-4">
               {/* Social Icons */}
-              {['github', 'linkedin', 'twitter'].map((social) => (
+              {['github', 'linkedin', 'twitter'].map(social => (
                 <a
                   key={social}
                   className="btn btn-ghost btn-sm btn-circle hover:bg-base-100/20"
@@ -76,10 +75,12 @@ const Footer = () => {
               <h6 className={`footer-title opacity-100 ${section.color}`}>
                 {section.title}
               </h6>
-              {section.links.map((link) => (
+              {section.links.map(link => (
                 <a
                   key={link}
-                  className={`link link-hover ${section.color ? `hover:${section.color}` : ''}`}
+                  className={`link link-hover ${
+                    section.color ? `hover:${section.color}` : ''
+                  }`}
                 >
                   {link}
                 </a>
