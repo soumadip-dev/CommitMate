@@ -7,8 +7,8 @@ import { addUser } from '../utils/userSlice';
 
 const Login = () => {
   // Local state for email, password, and error message
-  const [emailId, setEmailId] = useState('sneha@example.com');
-  const [password, setPassword] = useState('Sneha@1234');
+  const [emailId, setEmailId] = useState('ram@example.com');
+  const [password, setPassword] = useState('Ram@1234');
   const [error, setError] = useState('');
 
   const dispatch = useDispatch();

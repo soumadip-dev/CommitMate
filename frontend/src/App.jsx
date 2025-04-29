@@ -2,10 +2,12 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Body from './components/Body';
+import Connections from './components/Connections';
 import Feed from './components/Feed';
 import Hero from './components/Hero';
 import Login from './components/Login';
 import Profile from './components/Profile';
+import Requests from './components/Requests';
 import appStore from './utils/appStore';
 
 const App = () => {
@@ -23,6 +25,8 @@ const App = () => {
               <Route path="login" element={<Login />} />
               <Route path="profile" element={<Profile />} />
               <Route path="feed" element={<Feed />} />
+              <Route path="connections" element={<Connections />} />
+              <Route path="requests" element={<Requests />} />
             </Route>
           </Routes>
         </BrowserRouter>
