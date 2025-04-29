@@ -7,11 +7,11 @@ import { addUser } from '../utils/userSlice';
 
 const Login = () => {
   // Local state for form fields
-  const [emailId, setEmailId] = useState('ram@example.com');
-  const [password, setPassword] = useState('Ram@1234');
+  const [emailId, setEmailId] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [firstName, setFirstName] = useState('Ram');
-  const [lastName, setLastName] = useState('Saha');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [age, setAge] = useState('');
   const [gender, setGender] = useState('');
   const [isLoginForm, setIsLoginForm] = useState(true);
@@ -60,8 +60,9 @@ const Login = () => {
         { withCredentials: true }
       );
       dispatch(addUser(response.data.data));
-      navigate('/app/profile');
+      setIsLoginForm(true);
     } catch (error) {
+      console.log(error);
       setError(
         error?.response?.data?.message ||
           'Something went wrong. Please try again.'
@@ -177,10 +178,10 @@ const Login = () => {
                         required
                       >
                         <option value="">Select</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                        <option value="prefer-not-to-say">
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                        <option value="Prefer not to say">
                           Prefer not to say
                         </option>
                       </select>
