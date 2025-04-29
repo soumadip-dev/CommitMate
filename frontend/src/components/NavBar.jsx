@@ -49,15 +49,6 @@ const NavBar = () => {
         </Link>
       </div>
 
-      {/* Navigation Links - Add these if you want center-aligned nav items */}
-      {/* <div className="flex-none hidden md:flex">
-        <ul className="menu menu-horizontal px-1 gap-1">
-          <li><Link to="/app" className="btn btn-ghost btn-sm">Home</Link></li>
-          <li><Link to="/app/features" className="btn btn-ghost btn-sm">Features</Link></li>
-          <li><Link to="/app/about" className="btn btn-ghost btn-sm">About</Link></li>
-        </ul>
-      </div> */}
-
       {/* User Section */}
       <div className="flex-none gap-2">
         {user ? (
@@ -188,28 +179,7 @@ const NavBar = () => {
               </li>
             </ul>
           </div>
-        ) : (
-          <button
-            className="btn btn-primary btn-sm md:btn-md rounded-full px-5 hover:scale-105 active:scale-95 transition-transform"
-            onClick={() => navigate('/app/')}
-          >
-            Get Started
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4 ml-1"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M13 7l5 5m0 0l-5 5m5-5H6"
-              />
-            </svg>
-          </button>
-        )}
+        ) : null}
       </div>
     </nav>
   );
