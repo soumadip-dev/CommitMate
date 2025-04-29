@@ -1,5 +1,14 @@
 const UserCard = ({ profile }) => {
-  const {firstName, lastName, age, gender, photoUrl, about, skills} = profile;
+  const {
+    firstName,
+    lastName,
+    age,
+    gender,
+    photoUrl,
+    about,
+    skills = [],
+  } = profile;
+
   return (
     <div className="relative w-full max-w-md h-[580px] mb-16">
       <div className="absolute inset-0 rounded-3xl shadow-xl overflow-hidden border border-base-300 bg-base-100 transform transition-all duration-300 hover:shadow-2xl">
@@ -22,17 +31,13 @@ const UserCard = ({ profile }) => {
                 <h2 className="text-3xl font-bold text-white drop-shadow-md">
                   {firstName} {lastName}
                 </h2>
-                <span className="text-xl font-medium text-white/90">
-                  {age}
-                </span>
+                <span className="text-xl font-medium text-white/90">{age}</span>
               </div>
 
               <div className="flex items-center mt-2 gap-2">
-                <span className="text-white/90 drop-shadow-sm">
-                  {gender}
-                </span>
+                <span className="text-white/90 drop-shadow-sm">{gender}</span>
                 <div className="flex-1 flex flex-wrap gap-1 justify-end">
-                  {skills?.slice(0, 3).map((skill, index) => (
+                  {skills.slice(0, 3).map((skill, index) => (
                     <span
                       key={index}
                       className="text-xs px-2 py-1 bg-primary/50 text-white rounded-full backdrop-blur-sm"
@@ -67,6 +72,7 @@ const UserCard = ({ profile }) => {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path
                       strokeLinecap="round"
@@ -82,6 +88,9 @@ const UserCard = ({ profile }) => {
                     />
                   </svg>
                 </div>
+                <span className="text-xs text-base-content/80 text-center truncate w-full px-1">
+                  {profile.location}
+                </span>
               </div>
             )}
 
@@ -93,6 +102,7 @@ const UserCard = ({ profile }) => {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path
                       strokeLinecap="round"
@@ -116,6 +126,7 @@ const UserCard = ({ profile }) => {
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
                     <path
                       strokeLinecap="round"

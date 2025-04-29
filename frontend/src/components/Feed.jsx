@@ -2,12 +2,12 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { BASE_URL } from '../utils/constants';
-import { addFeed } from '../utils/feedSlice';
+import { addFeed, removeUserFromFeed } from '../utils/feedSlice';
 import UserCard from './UserCard';
 
 const Feed = () => {
   const feed = useSelector(store => store.feed);
-  const [currentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const dispatch = useDispatch();
 
   const getFeed = async () => {
@@ -19,6 +19,23 @@ const Feed = () => {
       dispatch(addFeed(response.data.data));
     } catch (error) {
       console.error('Failed to fetch feed:', error.message);
+    }
+  };
+
+  const handleSendRequest = async (status, userId) => {
+    try {
+      await axios.post(
+        `${BASE_URL}/connection/send/${status}/${userId}`,
+        {},
+        { withCredentials: true }
+      );
+      dispatch(removeUserFromFeed(userId));
+      // Move to next profile if available
+      if (currentIndex < feed.length - 1) {
+        setCurrentIndex(prev => prev + 1);
+      }
+    } catch (error) {
+      console.error('Failed to send request:', error.message);
     }
   };
 
@@ -54,12 +71,14 @@ const Feed = () => {
         <button
           className="btn btn-circle btn-outline w-16 h-16 text-2xl shadow-lg border-2 border-error hover:bg-error/20 hover:border-error text-error transition-transform hover:scale-105 active:scale-95"
           aria-label="Pass"
+          onClick={() => handleSendRequest('pass', currentProfile._id)}
         >
           ✕
         </button>
         <button
           className="btn btn-circle w-16 h-16 text-2xl shadow-lg border-2 border-primary bg-primary hover:bg-primary/90 hover:border-primary text-primary-content transition-transform hover:scale-105 active:scale-95"
           aria-label="Like"
+          onClick={() => handleSendRequest('like', currentProfile._id)}
         >
           ♥
         </button>
