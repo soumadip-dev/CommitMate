@@ -6,21 +6,17 @@
 
 <div align="center">
   <a href="https://github.com/soumadip-dev">
-    <img src="https://skillicons.dev/icons?i=nodejs,express,mongodb,react,redux,tailwindcss,github" alt="Tech Stack" width="300" style="padding: 15px 0;">
+    <img src="https://skillicons.dev/icons?i=nodejs,express,mongodb,react,redux,tailwindcss,github" alt="Tech Stack" width="300">
   </a>
 </div>
 
-<h3 align="center">
-CommitMate is a developer networking platform for connecting with like-minded professionals, managing profiles, and fostering technical collaborations.
-</h3>
-
----
-
 <p align="center">
-  <img src="./frontend/src/assets/ScreenShoot.png" alt="CommitMate Screenshot" width="600">
+  CommitMate is a developer networking platform for connecting with like-minded professionals, managing profiles, and fostering technical collaborations.
 </p>
 
----
+<div align="center">
+  <img src="./frontend/src/assets/ScreenShoot.png" alt="CommitMate Screenshot" width="900">
+</div>
 
 ## 🌟 Features
 
@@ -31,8 +27,6 @@ CommitMate is a developer networking platform for connecting with like-minded pr
 - 📬 **Request Tracking** – Monitor all sent connection requests.
 - 🧩 **Matches Overview** – View mutual matches and existing connections.
 
----
-
 ## 🛠 Tech Stack & Architecture
 
 CommitMate follows a **microservices architecture** to ensure modularity and scalability:
@@ -42,8 +36,6 @@ CommitMate follows a **microservices architecture** to ensure modularity and sca
 - **Database**: MongoDB with Mongoose for schema-based data modeling.
 - **Authentication**: Secure JWT-based token authentication with cookie management.
 - **Deployment**: Plans to deploy on **Vercel** (Frontend) and **Render** or **Railway** (Backend).
-
----
 
 ## ⚙️ Environment Variables
 
