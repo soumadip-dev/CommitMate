@@ -63,6 +63,12 @@ ACCESS_TOKEN_EXPIRY=
 COOKIE_MAX_AGE=
 ```
 
+> Create a `.env` file inside the `frontend` directory with the following keys:
+
+```
+########## BACKEND CONFIGURATION ##########
+VITE_BASE_URL=
+```
 
 <!-- ## 📡 API Endpoints
 
