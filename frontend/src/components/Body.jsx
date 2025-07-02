@@ -2,9 +2,10 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet, useNavigate } from 'react-router-dom';
-import { BASE_URL } from '../utils/constants';
 import { addUser } from '../utils/userSlice';
 import NavBar from './NavBar';
+
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const Body = () => {
   const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const Body = () => {
   const fetchUser = async () => {
     if (userData) return;
     try {
-      const response = await axios.get(`${BASE_URL}/profile/view`, {
+      const response = await axios.get(`/api/v1/profile/view`, {
         withCredentials: true,
       });
       dispatch(addUser(response.data.data));

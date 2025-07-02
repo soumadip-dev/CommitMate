@@ -3,8 +3,9 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
-import { BASE_URL } from '../utils/constants';
 import { removeUser } from '../utils/userSlice';
+
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const NavBar = () => {
   const user = useSelector(store => store.user);
@@ -13,11 +14,7 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.post(
-        `${BASE_URL}/auth/logout`,
-        {},
-        { withCredentials: true }
-      );
+      await axios.post(`/api/v1/auth/logout`, {}, { withCredentials: true });
       dispatch(removeUser());
       navigate('/app/login');
     } catch (error) {
@@ -79,9 +76,7 @@ const NavBar = () => {
               className="flex items-center gap-2 btn btn-ghost hover:bg-base-200/50 pl-3 pr-3 py-2 rounded-full transition-all duration-200"
             >
               <div className="text-right hidden sm:block">
-                <p className="font-medium text-base-content/90">
-                  {user.firstName}
-                </p>
+                <p className="font-medium text-base-content/90">{user.firstName}</p>
                 <p className="text-xs text-base-content/60">Welcome back!</p>
               </div>
               <div className="avatar placeholder">
@@ -109,10 +104,7 @@ const NavBar = () => {
               className="mt-3 z-[1] p-2 shadow-xl menu menu-sm dropdown-content bg-base-100 rounded-box w-52 border border-base-300/20"
             >
               <li>
-                <Link
-                  to="/app/profile"
-                  className="hover:bg-base-200/50 active:bg-base-300/50"
-                >
+                <Link to="/app/profile" className="hover:bg-base-200/50 active:bg-base-300/50">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4"
@@ -131,10 +123,7 @@ const NavBar = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/app/connections"
-                  className="hover:bg-base-200/50 active:bg-base-300/50"
-                >
+                <Link to="/app/connections" className="hover:bg-base-200/50 active:bg-base-300/50">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4"
@@ -153,10 +142,7 @@ const NavBar = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/app/requests"
-                  className="hover:bg-base-200/50 active:bg-base-300/50"
-                >
+                <Link to="/app/requests" className="hover:bg-base-200/50 active:bg-base-300/50">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4"

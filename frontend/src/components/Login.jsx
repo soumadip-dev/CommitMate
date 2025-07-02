@@ -2,8 +2,9 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { BASE_URL } from '../utils/constants';
 import { addUser } from '../utils/userSlice';
+
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const Login = () => {
   // Local state for form fields
@@ -25,7 +26,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${BASE_URL}/auth/login`,
+        `/api/v1/auth/login`,
         {
           emailId,
           password,
@@ -49,7 +50,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        `${BASE_URL}/auth/signup`,
+        `/api/v1/auth/signup`,
         {
           firstName,
           lastName,

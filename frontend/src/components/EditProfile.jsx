@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { BASE_URL } from '../utils/constants';
 import { addUser } from '../utils/userSlice';
 import UserCard from './UserCard';
+
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const EditProfile = ({ user }) => {
   const [formData, setFormData] = useState({
@@ -90,7 +91,7 @@ const EditProfile = ({ user }) => {
   const saveProfile = async () => {
     try {
       const res = await axios.patch(
-        `${BASE_URL}/profile/edit`,
+        `/api/v1/profile/edit`,
         {
           firstName: formData.firstName,
           lastName: formData.lastName,
@@ -110,10 +111,7 @@ const EditProfile = ({ user }) => {
       dispatch(addUser(res?.data?.data));
       showToast('success', 'Profile saved successfully!');
     } catch (err) {
-      showToast(
-        'error',
-        err.response?.data?.message || err.message || 'Failed to save profile'
-      );
+      showToast('error', err.response?.data?.message || err.message || 'Failed to save profile');
     }
   };
 
@@ -135,9 +133,7 @@ const EditProfile = ({ user }) => {
         <div className="toast toast-top toast-center z-50 animate-fade-in">
           <div
             className={`alert ${
-              toast.type === 'success'
-                ? 'bg-green-600 text-white'
-                : 'bg-red-600 text-white'
+              toast.type === 'success' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'
             } shadow-lg rounded-box`}
           >
             <div className="flex items-center">
@@ -184,9 +180,7 @@ const EditProfile = ({ user }) => {
           <div className="lg:w-1/3 lg:sticky lg:top-20 lg:self-start">
             <div className="rounded-xl shadow-lg p-6 border border-base-300 bg-base-200">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-semibold text-base-content">
-                  Profile Preview
-                </h2>
+                <h2 className="text-xl font-semibold text-base-content">Profile Preview</h2>
                 <span className="px-3 py-1 text-xs font-medium bg-primary text-primary-content rounded-full animate-pulse">
                   Live
                 </span>
@@ -202,9 +196,7 @@ const EditProfile = ({ user }) => {
             <div className="rounded-xl shadow-lg overflow-hidden border border-base-300 bg-base-200">
               <div className="p-6 md:p-8">
                 <div className="mb-8">
-                  <h2 className="text-2xl font-bold text-base-content">
-                    Edit Profile Details
-                  </h2>
+                  <h2 className="text-2xl font-bold text-base-content">Edit Profile Details</h2>
                   <p className="text-base-content opacity-70 mt-2">
                     Update your personal information and preferences
                   </p>
@@ -242,9 +234,7 @@ const EditProfile = ({ user }) => {
 
                     {/* Age */}
                     <div className="space-y-2">
-                      <label className="block text-sm font-medium text-base-content">
-                        Age
-                      </label>
+                      <label className="block text-sm font-medium text-base-content">Age</label>
                       <input
                         type="number"
                         name="age"
@@ -256,9 +246,7 @@ const EditProfile = ({ user }) => {
 
                     {/* Gender */}
                     <div className="space-y-2">
-                      <label className="block text-sm font-medium text-base-content">
-                        Gender
-                      </label>
+                      <label className="block text-sm font-medium text-base-content">Gender</label>
                       <select
                         name="gender"
                         className="block w-full px-4 py-2 border border-base-300 rounded-lg bg-base-100"

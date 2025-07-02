@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BASE_URL } from '../utils/constants';
 import { addRequest } from '../utils/requestSlice';
+
+
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const Requests = () => {
   const [loading, setLoading] = useState(true);
@@ -18,7 +20,7 @@ const Requests = () => {
   const reviewRequest = async (requestId, status) => {
     try {
       await axios.post(
-        `${BASE_URL}/connection/review/${status}/${requestId}`,
+        `/api/v1/connection/review/${status}/${requestId}`,
         {},
         { withCredentials: true }
       );
@@ -36,7 +38,7 @@ const Requests = () => {
   const fetchRequests = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${BASE_URL}/user/requests`, {
+      const response = await axios.get(`/api/v1/user/requests`, {
         withCredentials: true,
       });
       dispatch(addRequest(response.data.data));

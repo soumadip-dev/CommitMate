@@ -1,8 +1,9 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addConnection } from '../utils/connectionSlice';
-import { BASE_URL } from '../utils/constants';
+
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const Connections = () => {
   const [loading, setLoading] = useState(true);
@@ -14,7 +15,7 @@ const Connections = () => {
   const fetchConnections = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${BASE_URL}/user/connections`, {
+      const response = await axios.get(`/api/v1/user/connections`, {
         withCredentials: true,
       });
       dispatch(addConnection(response.data.data));
@@ -44,9 +45,7 @@ const Connections = () => {
             <h1 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary">
               Your Connections
             </h1>
-            <p className="text-base-content/70">
-              {connections.length} professional connections
-            </p>
+            <p className="text-base-content/70">{connections.length} professional connections</p>
           </div>
 
           {/* Search and Filter */}
@@ -143,18 +142,13 @@ const Connections = () => {
                     </div>
 
                     {connection.about && (
-                      <p className="mt-4 text-base-content/80 line-clamp-3">
-                        {connection.about}
-                      </p>
+                      <p className="mt-4 text-base-content/80 line-clamp-3">{connection.about}</p>
                     )}
 
                     {connection.skills?.length > 0 && (
                       <div className="mt-4 flex flex-wrap gap-2">
                         {connection.skills.slice(0, 4).map((skill, index) => (
-                          <span
-                            key={index}
-                            className="badge badge-outline badge-sm"
-                          >
+                          <span key={index} className="badge badge-outline badge-sm">
                             {skill}
                           </span>
                         ))}
@@ -186,9 +180,7 @@ const Connections = () => {
                 />
               </svg>
               <h3 className="mt-4 text-lg font-medium text-base-content/80">
-                {searchTerm
-                  ? 'No connections match your search'
-                  : 'No connections yet'}
+                {searchTerm ? 'No connections match your search' : 'No connections yet'}
               </h3>
               <p className="mt-1 text-base-content/60">
                 {searchTerm

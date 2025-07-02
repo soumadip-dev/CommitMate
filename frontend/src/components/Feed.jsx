@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { BASE_URL } from '../utils/constants';
 import { addFeed, removeUserFromFeed } from '../utils/feedSlice';
 import UserCard from './UserCard';
+axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
 const Feed = () => {
   const feed = useSelector(store => store.feed);
@@ -15,7 +15,7 @@ const Feed = () => {
 
   const getFeed = async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/user/feed`, {
+      const response = await axios.get(`/api/v1/user/feed`, {
         withCredentials: true,
       });
       dispatch(addFeed(response.data.data));
@@ -34,7 +34,7 @@ const Feed = () => {
 
     try {
       await axios.post(
-        `${BASE_URL}/connection/send/${status}/${userId}`,
+        `/api/v1/connection/send/${status}/${userId}`,
         {},
         { withCredentials: true }
       );
@@ -63,17 +63,12 @@ const Feed = () => {
       <div className="flex items-center justify-center min-h-screen bg-base-100">
         <div className="text-center p-6 max-w-md">
           <div className="text-6xl mb-4">😕</div>
-          <h2 className="text-2xl font-bold text-base-content mb-2">
-            No profiles to show
-          </h2>
+          <h2 className="text-2xl font-bold text-base-content mb-2">No profiles to show</h2>
           <p className="text-base-content/70 mb-6">
-            We've run out of potential matches in your area. Try adjusting your
-            preferences or check back later!
+            We've run out of potential matches in your area. Try adjusting your preferences or check
+            back later!
           </p>
-          <button
-            className="btn btn-primary"
-            onClick={() => window.location.reload()}
-          >
+          <button className="btn btn-primary" onClick={() => window.location.reload()}>
             Refresh Feed
           </button>
         </div>
@@ -105,11 +100,7 @@ const Feed = () => {
       {/* Main Profile Card with Animation */}
       <div
         className={`relative w-full max-w-md ${
-          isAnimating
-            ? animationType === 'like'
-              ? 'animate-like'
-              : 'animate-pass'
-            : ''
+          isAnimating ? (animationType === 'like' ? 'animate-like' : 'animate-pass') : ''
         }`}
       >
         <UserCard profile={currentProfile} />
