@@ -11,8 +11,7 @@
 </div>
 
 <h3 align="center">
-  CommitMate is a developer networking platform built to foster meaningful technical collaborations.<br>
-  Connect with like-minded developers, manage your profile, and grow your professional network.
+CommitMate is a developer networking platform for connecting with like-minded professionals, managing profiles, and fostering technical collaborations.
 </h3>
 
 ---
